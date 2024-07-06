@@ -21,6 +21,10 @@ var TextTools = require('./textTools');
 var StyleContextStack = require('./styleContextStack');
 var isNumber = require('./helpers').isNumber;
 
+// ROD: hack to expose this so we can do things like determine the maximum font size that
+//      lets a string fit in a given space.
+window.pdfMakeStyleContextStack = StyleContextStack;
+
 function addAll(target, otherArray) {
 	otherArray.forEach(function (item) {
 		target.push(item);

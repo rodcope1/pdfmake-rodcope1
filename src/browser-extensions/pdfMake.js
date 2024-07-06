@@ -6,6 +6,9 @@ var isNull = require('../helpers').isNull;
 var FileSaver = require('file-saver');
 var saveAs = FileSaver.saveAs;
 
+// ROD: moved this up from below so we can expose it via exports
+var PdfPrinter = require('../printer');
+
 var defaultClientFonts = {
 	Roboto: {
 		normal: 'Roboto-Regular.ttf',
@@ -49,7 +52,8 @@ Document.prototype._createDoc = function (options, cb) {
 		options.tableLayouts = this.tableLayouts;
 	}
 
-	var PdfPrinter = require('../printer');
+        // ROD: commenting out so we can move this up to the top and expose it in exports
+	//var PdfPrinter = require('../printer');
 
 	var printer = new PdfPrinter(this.fonts);
 	require('fs').bindFS(this.vfs); // bind virtual file system to file system
@@ -315,6 +319,8 @@ Document.prototype.getStream = function (options, cb) {
 };
 
 module.exports = {
+        // ROD: exposing this so we can more easily use it directly from the browser if needed
+        PdfPrinter: PdfPrinter,
 	createPdf: function (docDefinition, tableLayouts, fonts, vfs) {
 		if (!canCreatePdf()) {
 			throw 'Your browser does not provide the level of support needed';

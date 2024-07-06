@@ -19,6 +19,13 @@ var isPattern = require('./helpers').isPattern;
 var getPattern = require('./helpers').getPattern;
 var SVGtoPDF = require('./3rd-party/svg-to-pdfkit');
 
+
+// ROD: hack to expose these so we can do things like automatically choose the 
+//      maximum font size that fits in a given space.
+window.pdfMakePdfKit = PdfKitEngine.getEngineInstance();
+window.pdfMakeFontProvider = FontProvider;
+window.pdfMakeTextTools = TextTools;
+
 var findFont = function (fonts, requiredFonts, defaultFont) {
 	for (var i = 0; i < requiredFonts.length; i++) {
 		var requiredFont = requiredFonts[i].toLowerCase();
@@ -173,6 +180,17 @@ PdfPrinter.prototype.createPdfKitDocument = function (docDefinition, options) {
 		this.pdfKitDoc._root.data.OpenAction = printActionRef;
 		printActionRef.end();
 	}
+        // ROD: added this so we can pass {noPrintScaling: true} when showing, printing, or downloading a PDF 
+        //      to tell the browser or Adobe Acrobat not to mess with the margins because we're accounting for 
+        //      the entire page.  This is very useful when printing labels, for example.
+        if (options.noPrintScaling) {
+          var printScalingRef = this.pdfKitDoc.ref({
+                                  PrintScaling: "None"
+                                });
+          this.pdfKitDoc._root.data.ViewerPreferences=printScalingRef;
+          printScalingRef.end()
+        }
+
 	return this.pdfKitDoc;
 };
 
