@@ -1,5 +1,5 @@
 {
-  "name": "pdfmake",
+  "name": "pdfmake-rodcope1",
   "version": "0.2.10",
   "description": "Client/server side PDF printing in pure JavaScript",
   "main": "src/printer.js",
@@ -61,7 +61,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bpampuch/pdfmake.git"
+    "url": "git://github.com/rodcope1/pdfmake-rodcope1.git"
   },
   "keywords": [
     "pdf",
